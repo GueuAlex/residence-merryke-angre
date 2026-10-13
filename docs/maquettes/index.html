@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Merryke · Pistes UI/UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Cinzel:wght@500&family=Gabarito:wght@900&family=Libre+Caslon+Display&display=swap" rel="stylesheet">
+<style>
+  :root { --fond: #f4efe8; --encre: #1b1714; --gris: #6f655c; --ligne: #e2d9ce; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--fond); color: var(--encre); font-family: "Instrument Sans", system-ui, sans-serif; line-height: 1.55; padding: clamp(24px, 5vw, 64px) clamp(16px, 4vw, 56px); }
+  header { max-width: 900px; margin-bottom: 40px; }
+  .kicker { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--gris); }
+  h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.05; margin: 10px 0 14px; font-weight: 600; letter-spacing: -.02em; }
+  header p { color: var(--gris); max-width: 740px; }
+  .pistes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .piste { display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; background: #fff; border: 1px solid var(--ligne); color: inherit; text-decoration: none; transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s; }
+  .piste:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.08); }
+  .vis { height: 210px; display: grid; place-items: center; overflow: hidden; }
+  .a { background: radial-gradient(circle at 50% 30%, #2a241c, #16130f); }
+  .a .livret { display: flex; gap: 2px; perspective: 600px; }
+  .a .livret span { width: 90px; height: 128px; background: #fbf8f2; box-shadow: 0 10px 30px rgba(0,0,0,.4); display: grid; place-items: center; font-family: "Cinzel", serif; font-size: 13px; color: #8a6416; }
+  .a .livret span:last-child { transform: rotateY(-25deg); transform-origin: left; }
+  .b { background: #faf7f2; font-family: "Gabarito", sans-serif; font-weight: 900; font-size: 28px; color: #e8622c; text-align: center; line-height: 1; }
+  .c { background: #ece8e2; }
+  .c img { height: 170px; aspect-ratio: 9/14; object-fit: cover; border-radius: 80px 80px 6px 6px; }
+  .txt { padding: 22px; }
+  .txt h2 { font-size: 20px; font-weight: 600; }
+  .txt p { color: var(--gris); font-size: 15px; margin-top: 8px; }
+  .txt span { display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600; }
+  .note { margin-top: 28px; padding: 18px 22px; border-radius: 16px; background: #fff; border: 1px solid var(--ligne); max-width: 900px; font-size: 15px; }
+  footer { margin-top: 40px; font-size: 13px; color: var(--gris); }
+</style>
+</head>
+<body>
+  <header>
+    <p class="kicker">Les Résidences Merryke 3 · Angré, Nouveau CHU · Approches UI/UX</p>
+    <h1>Trois façons de vivre le site des Résidences Merryke</h1>
+    <p>Trois manières différentes d'utiliser le site, nouvelles par rapport aux sites précédents : feuilleter un livret, déballer une valise, visiter l'appartement.</p>
+  </header>
+  <div class="pistes">
+    <a class="piste" href="piste-a-livret.html">
+      <div class="vis a"><div class="livret"><span>Bienvenue</span><span>Merryke</span></div></div>
+      <div class="txt"><h2>A · Livret d'accueil</h2><p>Le site se feuillette comme le livret d'accueil d'une belle résidence : pages qui tournent en 3D, signets dorés, pleines pages photo. Noir et or, comme le logo.</p><span>Voir la piste →</span></div>
+    </a>
+    <a class="piste" href="piste-b-valise.html">
+      <div class="vis b">Venez avec<br>votre valise.</div>
+      <div class="txt"><h2>B · Valise</h2><p>Les treize équipements sortent d'une valise au fil du défilement : « le reste est déjà là ». Puis les pièces en photos et un calcul du séjour au nombre de nuits.</p><span>Voir la piste →</span></div>
+    </a>
+    <a class="piste" href="piste-c-visite.html">
+      <div class="vis c"><img src="assets/salon-tv.jpg" alt=""></div>
+      <div class="txt"><h2>C · Visite</h2><p>On entre dans l'appartement pièce par pièce : chaque photo s'ouvre comme une porte, un plan d'itinéraire avance. Plein écran sur mobile.</p><span>Voir la piste →</span></div>
+    </a>
+  </div>
+  <p class="note"><b>Bon à savoir :</b> Merryke est un petit réseau de résidences. Google Maps et Booking.com listent aussi « Merryke 1 » (9,6/10 sur Booking, 14 commentaires), « Merryke 2 » (Angré Château) et une résidence route d'Abatta. Les maquettes présentent Merryke 3 ; un site de marque réunissant toutes les résidences est possible si le propriétaire le souhaite.</p>
+  <footer>Maquettes de travail · Proposition de site réalisée par Digifaz</footer>
+</body>
+</html>

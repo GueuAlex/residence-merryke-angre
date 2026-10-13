@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Tokens du theme - piste B "Valise" */
+@theme {
+  --color-lin: #faf7f2;
+  --color-sable: #f1e9dd;
+  --color-bois: #d9b27c;
+  --color-orange: #e8622c;
+  /* Orange lisible pour les petits textes (AA) */
+  --color-orange-fonce: #b8461a;
+  --color-anthracite: #2b2b2e;
+  --color-gris: #6f6a63;
+  --color-or: #c79335;
+
+  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@theme inline {
+  --font-titre: var(--font-gabarito), system-ui, sans-serif;
+  --font-texte: var(--font-albert), system-ui, sans-serif;
+}
+
+@utility gouttiere {
+  padding-inline: clamp(16px, 4vw, 56px);
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--color-lin);
+    color: var(--color-anthracite);
+  }
+  body {
+    font-family: var(--font-texte);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .surtitre {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-orange-fonce);
+  }
+  .titre {
+    font-family: var(--font-titre);
+    font-weight: 900;
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Entree de l'ouverture en CSS (sans attendre le JavaScript) */
+@media (prefers-reduced-motion: no-preference) {
+  .entree {
+    animation: entree 0.9s var(--ease-doux) backwards;
+    animation-delay: calc(0.1s + var(--i, 0) * 0.08s);
+  }
+}
+@keyframes entree {
+  from {
+    translate: 0 24px;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}

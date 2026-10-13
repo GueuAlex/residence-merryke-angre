@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Merryke · Piste B · Valise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@600..900&family=Albert+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* Tokens du theme - piste B */
+  :root {
+    --lin: #faf7f2;
+    --sable: #f1e9dd;
+    --bois: #d9b27c;
+    --orange: #e8622c;
+    --orange-fonce: #b8461a;   /* textes (AA) */
+    --anthracite: #2b2b2e;
+    --gris: #6f6a63;
+    --or: #c79335;
+    --f-titre: "Gabarito", system-ui, sans-serif;
+    --f-texte: "Albert Sans", system-ui, sans-serif;
+    --gouttiere: clamp(16px, 4vw, 56px);
+    --ease: cubic-bezier(.22, 1, .36, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  body { background: var(--lin); color: var(--anthracite); font-family: var(--f-texte); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+  .surtitre { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--orange-fonce); }
+
+  .barre { position: fixed; inset: 0 0 auto; z-index: 40; display: flex; justify-content: space-between; align-items: center; padding: 12px var(--gouttiere); background: rgba(250, 247, 242, .92); backdrop-filter: blur(8px); }
+  .marque { display: flex; align-items: center; gap: 10px; font-family: var(--f-titre); font-weight: 800; font-size: 18px; }
+  .marque img { width: 42px; mix-blend-mode: multiply; }
+  .marque small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 11px; color: var(--gris); }
+  .barre a.tel { padding: 10px 16px; border-radius: 999px; background: var(--anthracite); color: var(--lin); font-weight: 700; font-size: 14px; white-space: nowrap; }
+
+  /* Ouverture */
+  .ouverture { min-height: 100svh; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(24px, 4vw, 64px); padding: 90px var(--gouttiere) 40px; max-width: 1360px; margin: 0 auto; }
+  .ouverture h1 { font-family: var(--f-titre); font-weight: 900; font-size: clamp(44px, 6.4vw, 104px); line-height: .92; letter-spacing: -.02em; margin: 14px 0 18px; }
+  .ouverture h1 span { color: var(--orange); }
+  .ouverture p.sous { max-width: 460px; font-size: 18px; color: var(--gris); }
+  .ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 22px; border-radius: 16px; font-weight: 700; }
+  .btn--plein { background: var(--orange); color: #fff; }
+  .btn--trait { border: 1.5px solid var(--anthracite); }
+  .prix-pastille { display: inline-flex; align-items: baseline; gap: 6px; margin-top: 22px; padding: 10px 16px; border-radius: 999px; background: var(--sable); font-size: 15px; }
+  .prix-pastille b { font-family: var(--f-titre); font-size: 22px; }
+  .ouverture__photo { position: relative; justify-self: center; width: min(100%, 420px); }
+  .ouverture__photo img { width: 100%; aspect-ratio: 9 / 13; object-fit: cover; border-radius: 28px; }
+  .etiquette-bagage { position: absolute; left: -24px; bottom: 40px; padding: 14px 18px 14px 26px; background: var(--bois); border-radius: 8px 14px 14px 8px; font-family: var(--f-titre); font-weight: 800; transform: rotate(-6deg); box-shadow: 0 14px 30px rgba(43, 43, 46, .2); }
+  .etiquette-bagage::before { content: ""; position: absolute; left: 9px; top: 50%; width: 9px; height: 9px; margin-top: -4.5px; border-radius: 50%; background: var(--lin); }
+  .etiquette-bagage small { display: block; font-family: var(--f-texte); font-weight: 600; font-size: 12px; }
+
+  /* Signature : la valise se deballe */
+  .deballage { position: relative; height: 100svh; min-height: 640px; display: grid; grid-template-columns: 1fr minmax(240px, 380px) 1fr; align-items: center; gap: clamp(16px, 3vw, 48px); padding: 80px var(--gouttiere) 30px; max-width: 1360px; margin: 0 auto; overflow: hidden; }
+  .deballage__titre { position: absolute; top: 76px; left: 0; right: 0; text-align: center; }
+  .deballage__titre h2 { font-family: var(--f-titre); font-weight: 900; font-size: clamp(28px, 3.6vw, 52px); line-height: 1; margin-top: 8px; }
+  .colonne { display: grid; gap: 10px; }
+  .objet { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 16px; background: #fff; box-shadow: 0 6px 18px rgba(43, 43, 46, .06); font-weight: 600; }
+  .objet svg { width: 34px; height: 34px; flex: none; fill: none; stroke: var(--anthracite); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .objet .coche { margin-left: auto; width: 22px; height: 22px; border-radius: 50%; background: var(--orange); display: grid; place-items: center; color: #fff; font-size: 13px; }
+  .valise { justify-self: center; width: 100%; }
+  .valise svg { width: 100%; overflow: visible; }
+  .compte { text-align: center; margin-top: 12px; font-weight: 700; }
+  .compte b { font-family: var(--f-titre); font-size: 40px; color: var(--orange); }
+
+  /* Les pieces */
+  .pieces { padding: clamp(70px, 9vw, 120px) 0; }
+  .pieces__tete { padding: 0 var(--gouttiere); max-width: 1360px; margin: 0 auto 26px; display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+  .pieces h2 { font-family: var(--f-titre); font-weight: 900; font-size: clamp(32px, 4.4vw, 64px); line-height: .95; }
+  .rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 var(--gouttiere) 10px; scrollbar-width: none; }
+  .rail figure { flex: none; width: min(70vw, 300px); scroll-snap-align: start; }
+  .rail img { width: 100%; aspect-ratio: 9 / 15; object-fit: cover; border-radius: 22px; }
+  .rail figcaption { margin-top: 8px; font-weight: 700; }
+
+  /* Calcul du sejour */
+  .sejour { margin: 0 var(--gouttiere); padding: clamp(32px, 5vw, 64px); border-radius: 32px; background: var(--anthracite); color: var(--lin); display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; max-width: 1360px; }
+  @media (min-width: 1472px) { .sejour { margin: 0 auto; } }
+  .sejour h2 { font-family: var(--f-titre); font-weight: 900; font-size: clamp(30px, 4vw, 56px); line-height: .95; }
+  .sejour .surtitre { color: var(--bois); }
+  .nuits { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
+  .nuits button { width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(250, 247, 242, .4); font-size: 22px; }
+  .nuits output { font-family: var(--f-titre); font-weight: 900; font-size: 56px; min-width: 2ch; text-align: center; }
+  .total { padding: 28px; border-radius: 22px; background: rgba(250, 247, 242, .06); }
+  .total p { color: rgba(250, 247, 242, .7); }
+  .total b { display: block; font-family: var(--f-titre); font-weight: 900; font-size: clamp(40px, 5vw, 68px); line-height: 1; margin: 6px 0 4px; color: var(--bois); }
+  .total .btn { margin-top: 18px; width: 100%; justify-content: center; }
+
+  .quartier { padding: clamp(70px, 9vw, 120px) var(--gouttiere); max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .quartier h2 { font-family: var(--f-titre); font-weight: 900; font-size: clamp(30px, 4vw, 56px); line-height: .95; margin: 10px 0 14px; }
+  .quartier img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 28px; }
+  .repere { display: flex; gap: 10px; align-items: center; padding: 14px 0; border-bottom: 1px solid rgba(43, 43, 46, .12); }
+  .repere i { width: 12px; height: 12px; border-radius: 50%; background: var(--orange); flex: none; }
+
+  .da { background: #fff; padding: clamp(56px, 8vw, 100px) var(--gouttiere); }
+  .da h3 { font-family: var(--f-titre); font-weight: 900; font-size: clamp(28px, 3.6vw, 44px); margin: 10px 0 26px; }
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .pastille { border-radius: 14px; overflow: hidden; border: 1px solid #eee5d8; }
+  .pastille div { height: 76px; }
+  .pastille p { padding: 10px 12px; font-size: 12px; }
+  .pastille b { display: block; }
+  .bloc { margin-top: 12px; padding: 24px; border-radius: 16px; background: var(--lin); max-width: 1000px; }
+  .bloc p + p { margin-top: 10px; }
+  .pied { padding: 26px var(--gouttiere) 70px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; color: var(--gris); background: #fff; }
+  .badge { position: fixed; left: 12px; bottom: 12px; z-index: 70; padding: 8px 14px; border-radius: 999px; font-size: 11px; background: var(--anthracite); color: var(--bois); }
+  .badge a { color: #fff; text-decoration: underline; margin-left: 6px; }
+
+  @media (max-width: 900px) {
+    .ouverture { grid-template-columns: 1fr; padding-top: 80px; }
+    .ouverture__photo { width: min(100%, 300px); order: -1; }
+    .ouverture__photo img { aspect-ratio: 4 / 4.4; }
+    .deballage { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; align-content: center; height: auto; min-height: 100svh; padding-top: 140px; gap: 8px; }
+    .deballage__titre { top: 70px; }
+    .valise { grid-column: 1 / -1; grid-row: 1; width: min(60vw, 220px); }
+    .colonne { gap: 6px; }
+    .objet { padding: 7px 9px; gap: 8px; font-size: 13px; border-radius: 12px; }
+    .objet svg { width: 24px; height: 24px; }
+    .objet .coche { width: 18px; height: 18px; font-size: 11px; }
+    .sejour, .quartier { grid-template-columns: 1fr; }
+    .badge { bottom: auto; top: 66px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-balcon" viewBox="0 0 32 32"><path d="M4 28h24M6 28V16h20v12M10 16v12M14 16v12M18 16v12M22 16v12M9 16V6h14v10"/></symbol>
+  <symbol id="i-clim" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="9" rx="2"/><path d="M7 12h18M10 19v6M16 19v8M22 19v6"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 32 32"><path d="M4 13a17 17 0 0 1 24 0M8 17.5a11 11 0 0 1 16 0M12 22a5 5 0 0 1 8 0"/><circle cx="16" cy="26" r="1.2"/></symbol>
+  <symbol id="i-canal" viewBox="0 0 32 32"><rect x="3" y="7" width="26" height="16" rx="2"/><path d="M12 27h8M16 15v-4M14 13h4"/><path d="M9 18c1.5 1 3 1 4.5 0M19 18c1.5 1 3 1 4.5 0"/></symbol>
+  <symbol id="i-tv" viewBox="0 0 32 32"><rect x="3" y="6" width="26" height="17" rx="2"/><path d="M11 27h10M16 23v4"/></symbol>
+  <symbol id="i-gaziniere" viewBox="0 0 32 32"><rect x="5" y="4" width="22" height="25" rx="2"/><circle cx="11" cy="10" r="2.5"/><circle cx="21" cy="10" r="2.5"/><rect x="9" y="16" width="14" height="9" rx="1"/></symbol>
+  <symbol id="i-frigo" viewBox="0 0 32 32"><rect x="8" y="3" width="16" height="26" rx="2"/><path d="M8 13h16M12 7v3M12 17v5"/></symbol>
+  <symbol id="i-microondes" viewBox="0 0 32 32"><rect x="3" y="8" width="26" height="16" rx="2"/><rect x="6" y="11" width="15" height="10" rx="1"/><path d="M25 12v1M25 16v1M25 20v1"/></symbol>
+  <symbol id="i-mixeur" viewBox="0 0 32 32"><path d="M10 4h12l-2 14h-8Z"/><rect x="10" y="18" width="12" height="9" rx="2"/><path d="M14 8l4 6"/></symbol>
+  <symbol id="i-eau" viewBox="0 0 32 32"><rect x="9" y="3" width="14" height="21" rx="7"/><path d="M13 24v4M19 24v4M16 10c-2 3-3 4.5-3 6a3 3 0 0 0 6 0c0-1.5-1-3-3-6Z"/></symbol>
+  <symbol id="i-parking" viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="5"/><path d="M12 23V9h6a4 4 0 0 1 0 8h-6"/></symbol>
+  <symbol id="i-securite" viewBox="0 0 32 32"><path d="M16 3 27 7v8c0 7-5 12-11 14C10 27 5 22 5 15V7Z"/><path d="M11 16l3.5 3.5L21 13"/></symbol>
+  <symbol id="i-calme" viewBox="0 0 32 32"><path d="M24 20A10 10 0 1 1 13 5a8 8 0 0 0 11 15Z"/></symbol>
+  <symbol id="i-bulle" viewBox="0 0 24 24"><path d="M4 18.5 5.2 15A8 8 0 1 1 8.6 18.6Z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+</svg>
+
+<header class="barre">
+  <a class="marque" href="#"><img src="assets/logo-lm.jpg" alt=""><span>Résidences Merryke<small>Merryke 3 · Angré</small></span></a>
+  <a class="tel" href="tel:+2250716191824">07 16 19 18 24</a>
+</header>
+
+<section class="ouverture">
+  <div>
+    <p class="surtitre">Appartement meublé · Angré, Nouveau CHU</p>
+    <h1>Venez avec votre valise. <span>Le reste est déjà là.</span></h1>
+    <p class="sous">Un appartement moderne, propre et entièrement équipé, pour un court ou un long séjour. Sécurité, confort, tranquillité.</p>
+    <div class="ctas"><a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Réserver sur WhatsApp</a><a class="btn btn--trait" href="tel:+2250716191824">Appeler</a></div>
+    <p class="prix-pastille"><b>35 000 F</b> la nuit</p>
+  </div>
+  <figure class="ouverture__photo">
+    <img src="assets/chambre-plaid-orange.jpg" alt="Chambre avec grand lit, plaid orange, tableau et climatisation">
+    <span class="etiquette-bagage">Merryke 3<small>Angré · Nouveau CHU</small></span>
+  </figure>
+</section>
+
+<section class="deballage" aria-labelledby="titre-deballage">
+  <div class="deballage__titre"><p class="surtitre">Inventaire</p><h2 id="titre-deballage">Tout ce que vous n'avez pas à apporter</h2></div>
+  <ul class="colonne colonne--g" role="list"></ul>
+  <div class="valise">
+    <svg viewBox="0 0 300 260" aria-hidden="true">
+      <g class="couvercle" style="transform-origin:150px 120px"><rect x="40" y="40" width="220" height="80" rx="16" fill="#c4683d"/><rect x="40" y="40" width="220" height="80" rx="16" fill="none" stroke="#2b2b2e" stroke-width="3"/><path d="M90 40v80M210 40v80" stroke="#8f4a26" stroke-width="10"/></g>
+      <path d="M120 128v-20a12 12 0 0 1 12-12h36a12 12 0 0 1 12 12v20" fill="none" stroke="#2b2b2e" stroke-width="8"/>
+      <rect x="30" y="128" width="240" height="120" rx="18" fill="#e8622c" stroke="#2b2b2e" stroke-width="3"/>
+      <path d="M85 128v120M215 128v120" stroke="#b8461a" stroke-width="12"/>
+      <rect x="138" y="170" width="24" height="16" rx="3" fill="#d9b27c" stroke="#2b2b2e" stroke-width="2"/>
+      <circle cx="60" cy="252" r="8" fill="#2b2b2e"/><circle cx="240" cy="252" r="8" fill="#2b2b2e"/>
+    </svg>
+    <p class="compte"><b class="nb">0</b> / 13 équipements sur place</p>
+  </div>
+  <ul class="colonne colonne--d" role="list"></ul>
+</section>
+
+<section class="pieces" aria-labelledby="titre-pieces">
+  <div class="pieces__tete"><div><p class="surtitre">L'appartement</p><h2 id="titre-pieces">Pièce par pièce</h2></div><p style="color:var(--gris)">Glissez pour visiter →</p></div>
+  <div class="rail">
+    <figure><img src="assets/salon-ouvert-cuisine.jpg" alt="Salon ouvert sur la cuisine par un comptoir bar"><figcaption>Le séjour</figcaption></figure>
+    <figure><img src="assets/cuisine-bar.jpg" alt="Comptoir bar en bois avec tabourets et suspensions"><figcaption>Le comptoir bar</figcaption></figure>
+    <figure><img src="assets/cuisine-equipee.jpg" alt="Cuisine équipée : gazinière, micro-ondes, réfrigérateur"><figcaption>La cuisine équipée</figcaption></figure>
+    <figure><img src="assets/chambre-baie-vitree.jpg" alt="Chambre avec baie vitrée et rideaux"><figcaption>La chambre</figcaption></figure>
+    <figure><img src="assets/chambre-led-soir.jpg" alt="Chambre le soir, tête de lit éclairée"><figcaption>La chambre, le soir</figcaption></figure>
+    <figure><img src="assets/balcon-vue.jpg" alt="Balcon avec deux chaises et vue sur le quartier"><figcaption>Le balcon</figcaption></figure>
+  </div>
+</section>
+
+<section class="sejour" aria-labelledby="titre-sejour">
+  <div>
+    <p class="surtitre">Votre séjour</p>
+    <h2 id="titre-sejour">Combien de nuits ?</h2>
+    <div class="nuits"><button type="button" data-pas="-1" aria-label="Une nuit de moins">−</button><output aria-live="polite">3</output><button type="button" data-pas="1" aria-label="Une nuit de plus">+</button></div>
+  </div>
+  <div class="total">
+    <p>Total indicatif, à 35 000 F la nuit</p>
+    <b class="montant">105 000 F</b>
+    <p class="pour">pour 3 nuits</p>
+    <a class="btn btn--plein lien-wa" href="#"><svg width="18" height="18" aria-hidden="true"><use href="#i-bulle"/></svg>Demander ces dates sur WhatsApp</a>
+  </div>
+</section>
+
+<section class="quartier" aria-labelledby="titre-quartier">
+  <div>
+    <p class="surtitre">Le quartier</p>
+    <h2 id="titre-quartier">Angré, Nouveau CHU</h2>
+    <p style="color:var(--gris)">Un quartier calme et accessible.</p>
+    <div class="repere"><i></i>Près du Nouveau CHU d'Angré</div>
+    <div class="repere"><i></i>Non loin de l'école internationale Les Graines du Savoir</div>
+    <div class="repere"><i></i>Parking interne et sécurité 24h/24</div>
+  </div>
+  <img src="assets/balcon-vue.jpg" alt="Vue depuis le balcon sur le quartier d'Angré" style="object-position:60% 60%">
+</section>
+
+<section class="da">
+  <p class="surtitre">Planche de direction artistique · Piste B</p>
+  <h3>Valise : tout est déjà sur place</h3>
+  <div class="nuancier">
+    <div class="pastille"><div style="background:#faf7f2"></div><p><b>Lin</b>#FAF7F2</p></div>
+    <div class="pastille"><div style="background:#e8622c"></div><p><b>Orange</b>#E8622C · le plaid</p></div>
+    <div class="pastille"><div style="background:#d9b27c"></div><p><b>Bois</b>#D9B27C · le mobilier</p></div>
+    <div class="pastille"><div style="background:#2b2b2e"></div><p><b>Anthracite</b>#2B2B2E</p></div>
+    <div class="pastille"><div style="background:#c79335"></div><p><b>Or</b>#C79335 · le logo</p></div>
+  </div>
+  <div class="bloc">
+    <p class="surtitre">Expérience</p>
+    <p>La publication de Merryke 3 est surtout une longue liste d'équipements : le site en fait un spectacle. Une valise s'ouvre au centre de l'écran et, au fil du défilement, les treize équipements en sortent un à un pour se ranger de part et d'autre, cochés, pendant que le compteur grimpe jusqu'à 13. Message : vous n'avez qu'à apporter vos affaires.</p>
+    <p>Suivent les pièces en photos verticales (format des photos fournies), un calcul du séjour (nombre de nuits × 35 000 F, avec un message WhatsApp qui reprend le nombre de nuits) et le quartier. Typographies : Gabarito et Albert Sans ; couleurs tirées du plaid orange et du bois des chambres.</p>
+  </div>
+</section>
+<footer class="pied"><span>Les Résidences Merryke 3 · Angré, Nouveau CHU · 07 16 19 18 24</span><span>Proposition de site réalisée par Digifaz</span></footer>
+<p class="badge">Maquette · Piste B · Valise<a href="index.html">Toutes les pistes</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduit) {
+    const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  const EQUIPEMENTS = [
+    ["balcon", "Balcon avec vue"], ["clim", "Climatisation"], ["wifi", "Wi-Fi haut débit"], ["canal", "Canal+ inclus"], ["tv", "Télévision"], ["gaziniere", "Gazinière"], ["frigo", "Réfrigérateur"],
+    ["microondes", "Micro-ondes"], ["mixeur", "Mixeur"], ["eau", "Chauffe-eau"], ["parking", "Parking interne"], ["securite", "Sécurité 24h/24"], ["calme", "Quartier calme"],
+  ];
+  const g = document.querySelector(".colonne--g"), d = document.querySelector(".colonne--d");
+  EQUIPEMENTS.forEach(([icone, nom], i) => {
+    (i < 7 ? g : d).insertAdjacentHTML("beforeend", `<li class="objet"><svg aria-hidden="true"><use href="#i-${icone}"/></svg>${nom}<span class="coche" aria-hidden="true">✓</span></li>`);
+  });
+
+  // ---------- Signature : les objets sortent de la valise ----------
+  const objets = gsap.utils.toArray(".objet");
+  const valise = document.querySelector(".valise svg");
+  const nb = document.querySelector(".nb");
+  const centre = (el) => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+  if (reduit) nb.textContent = "13";
+  else {
+    const mobile = matchMedia("(max-width: 900px)").matches;
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: ".deballage", start: mobile ? "top 60%" : "top top", end: mobile ? "bottom 80%" : "+=140%", scrub: 1, pin: !mobile, invalidateOnRefresh: true },
+    });
+    tl.to(".couvercle", { rotation: -28, y: -20, duration: 0.6, ease: "power2.out" }, 0);
+    objets.forEach((o, i) => {
+      tl.from(o, {
+        x: () => centre(valise).x - centre(o).x,
+        y: () => centre(valise).y - centre(o).y + 40,
+        scale: 0.2, opacity: 0, rotation: gsap.utils.random(-30, 30),
+        duration: 1, ease: "back.out(1.3)",
+        onComplete: () => (nb.textContent = Math.max(+nb.textContent, i + 1)),
+        onReverseComplete: () => (nb.textContent = i),
+      }, 0.4 + i * 0.35);
+      tl.from(o.querySelector(".coche"), { scale: 0, duration: 0.3, ease: "back.out(3)" }, 1.1 + i * 0.35);
+    });
+    tl.to(".couvercle", { rotation: 0, y: 0, duration: 0.6, ease: "power2.inOut" }, ">");
+    gsap.from(".rail figure", { y: 60, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.08, scrollTrigger: { trigger: ".rail", start: "top 85%" } });
+  }
+
+  // ---------- Calcul du sejour ----------
+  const PRIX = 35000;
+  let nuits = 3;
+  const fmt = (n) => n.toLocaleString("fr-FR").replace(/\s/g, " ") + " F";
+  const montant = document.querySelector(".montant");
+  const affiche = { v: PRIX * nuits };
+  function majSejour() {
+    document.querySelector(".nuits output").textContent = nuits;
+    document.querySelector(".pour").textContent = `pour ${nuits} nuit${nuits > 1 ? "s" : ""}`;
+    gsap.to(affiche, { v: PRIX * nuits, duration: reduit ? 0 : 0.5, ease: "power2.out", onUpdate: () => (montant.textContent = fmt(Math.round(affiche.v / 1000) * 1000)) });
+    const msg = `Bonjour, je souhaite réserver aux Résidences Merryke 3 (Angré) pour ${nuits} nuit${nuits > 1 ? "s" : ""}.`;
+    document.querySelectorAll(".lien-wa").forEach((l) => (l.href = "https://wa.me/2250716191824?text=" + encodeURIComponent(msg)));
+  }
+  document.querySelectorAll(".nuits button").forEach((b) => b.addEventListener("click", () => { nuits = Math.max(1, Math.min(30, nuits + +b.dataset.pas)); majSejour(); }));
+  majSejour();
+</script>
+</body>
+</html>

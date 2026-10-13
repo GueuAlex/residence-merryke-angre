@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Merryke · Piste A · Livret d'accueil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400..600;1,400..600&display=swap" rel="stylesheet">
+<style>
+  /* Tokens du theme - piste A */
+  :root {
+    --table: #16130f;
+    --ivoire: #fbf8f2;
+    --encre: #1a1714;
+    --gris: #6b6359;
+    --or: #c79335;
+    --or-clair: #e2bf74;
+    --or-fonce: #8a6416;
+    --f-titre: "Cinzel", Georgia, serif;
+    --f-texte: "EB Garamond", Georgia, serif;
+    --ease: cubic-bezier(.65, 0, .35, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: radial-gradient(120% 90% at 50% 20%, #2a241c, var(--table) 60%); color: var(--ivoire); font-family: var(--f-texte); min-height: 100svh; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--or-clair); outline-offset: 3px; }
+
+  .scene { min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; align-items: center; justify-items: center; padding: 18px 16px 22px; gap: 14px; }
+  .entete { width: min(1180px, 100%); display: flex; justify-content: space-between; align-items: center; font-family: var(--f-titre); font-size: 13px; letter-spacing: .2em; color: var(--or-clair); }
+  .entete a { padding: 9px 16px; border: 1px solid rgba(226, 191, 116, .5); border-radius: 999px; font-size: 12px; }
+
+  /* Le livre */
+  .livre { --page-l: min(40vw, calc((100svh - 190px) * .7), 520px); --page-h: calc(var(--page-l) / .7); position: relative; width: calc(var(--page-l) * 2); height: var(--page-h); perspective: 2600px; transition: translate .9s var(--ease); }
+  .livre.ferme { translate: calc(var(--page-l) * -.5) 0; }
+  .livre.fin { translate: calc(var(--page-l) * .5) 0; }
+  .ombre { position: absolute; inset: 4% 2% -3%; background: rgba(0, 0, 0, .55); filter: blur(28px); z-index: -1; border-radius: 10px; }
+  .feuille { position: absolute; left: 50%; top: 0; width: 50%; height: 100%; transform-origin: left center; transform-style: preserve-3d; cursor: pointer; }
+  .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; background: var(--ivoire); color: var(--encre); border-radius: 2px 8px 8px 2px; }
+  .verso { transform: rotateY(180deg); border-radius: 8px 2px 2px 8px; }
+  .face::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(0, 0, 0, .12), transparent 8%); }
+  .verso::after { background: linear-gradient(270deg, rgba(0, 0, 0, .12), transparent 8%); }
+  .reflet { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent, rgba(0, 0, 0, .25)); opacity: 0; z-index: 3; }
+
+  /* Signets */
+  .signets { position: absolute; top: -26px; right: 8%; display: flex; gap: 6px; z-index: 50; }
+  .signet { width: 30px; height: 46px; background: var(--or); color: var(--encre); font-family: var(--f-titre); font-size: 9px; font-weight: 700; display: grid; place-items: start center; padding-top: 6px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%); transition: translate .3s, background .3s; writing-mode: vertical-rl; letter-spacing: .1em; }
+  .signet:hover, .signet[aria-current="true"] { translate: 0 -6px; background: var(--or-clair); }
+
+  /* Contenu des pages */
+  .page { position: absolute; inset: 0; padding: 9% 10%; display: flex; flex-direction: column; }
+  .page--photo { padding: 0; }
+  .page--photo img { width: 100%; height: 100%; object-fit: cover; }
+  .page--photo .legende { position: absolute; left: 0; right: 0; bottom: 0; padding: 18% 9% 8%; background: linear-gradient(transparent, rgba(10, 8, 6, .75)); color: var(--ivoire); }
+  .page--photo .legende b { display: block; font-family: var(--f-titre); font-weight: 500; font-size: clamp(18px, 2vw, 28px); letter-spacing: .08em; }
+  .num { position: absolute; bottom: 4%; font-size: 12px; color: var(--gris); letter-spacing: .1em; }
+  .recto .num { right: 8%; } .verso .num { left: 8%; }
+  .page--photo .num { color: rgba(251, 248, 242, .7); z-index: 2; }
+  .cadre { position: absolute; inset: 4%; border: 1px solid var(--or); pointer-events: none; }
+  .cadre::after { content: ""; position: absolute; inset: 6px; border: .5px solid rgba(199, 147, 53, .5); }
+  .surtitre { font-family: var(--f-titre); font-size: 11px; letter-spacing: .3em; color: var(--or-fonce); }
+  .titre { font-family: var(--f-titre); font-weight: 500; font-size: clamp(22px, 2.5vw, 36px); line-height: 1.1; letter-spacing: .04em; margin: 10px 0 14px; }
+  .page p { font-size: clamp(14px, 1.25vw, 18px); line-height: 1.5; }
+  .page p + p { margin-top: .6em; }
+  .filet { width: 48px; height: 1px; background: var(--or); margin: 14px 0; }
+  .couverture { align-items: center; justify-content: center; text-align: center; background: #fff; }
+  .couverture img { width: 78%; }
+  .couverture .devise { font-family: var(--f-titre); font-size: 11px; letter-spacing: .3em; color: var(--or-fonce); margin-top: 8px; }
+  .couverture .sous { margin-top: 16px; font-style: italic; font-size: clamp(15px, 1.4vw, 20px); color: var(--gris); }
+  .sommaire { list-style: none; margin-top: 8px; }
+  .sommaire button { display: flex; width: 100%; gap: 8px; padding: 6px 0; font-size: clamp(14px, 1.2vw, 17px); text-align: left; }
+  .sommaire button span:nth-child(2) { flex: 1; border-bottom: 1px dotted rgba(26, 23, 20, .35); translate: 0 -5px; }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+  .duo img { width: 100%; aspect-ratio: 3 / 4.4; object-fit: cover; }
+  .equipements { list-style: none; columns: 2; column-gap: 16px; margin-top: 4px; }
+  .equipements li { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: clamp(13px, 1.15vw, 16px); break-inside: avoid; }
+  .equipements li::before { content: ""; width: 7px; height: 7px; transform: rotate(45deg); background: var(--or); flex: none; }
+  .schema { margin-top: auto; aspect-ratio: 4 / 3; border: 1px solid rgba(26, 23, 20, .15); position: relative; background: repeating-linear-gradient(0deg, transparent 0 22px, rgba(26, 23, 20, .05) 22px 23px), repeating-linear-gradient(90deg, transparent 0 22px, rgba(26, 23, 20, .05) 22px 23px); }
+  .schema span { position: absolute; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  .schema i { width: 10px; height: 10px; border-radius: 50%; background: var(--encre); }
+  .schema .moi i { width: 16px; height: 16px; background: var(--or); box-shadow: 0 0 0 6px rgba(199, 147, 53, .25); }
+  .schema small { position: absolute; right: 6px; bottom: 4px; font-size: 10px; color: var(--gris); font-style: italic; }
+  .tarif { font-family: var(--f-titre); font-size: clamp(36px, 4.4vw, 60px); line-height: 1; margin: 6px 0; }
+  .tarif small { font-size: .35em; letter-spacing: .1em; }
+  .liste { list-style: none; margin-top: 10px; }
+  .liste li { padding: 8px 0; border-bottom: 1px solid rgba(26, 23, 20, .12); font-size: clamp(14px, 1.2vw, 17px); }
+  .dos { background: var(--encre); color: var(--ivoire); justify-content: center; text-align: center; }
+  .dos .titre { color: var(--or-clair); }
+  .tel { font-family: var(--f-titre); font-size: clamp(24px, 2.6vw, 36px); letter-spacing: .06em; margin: 8px 0 18px; }
+  .boutons { display: grid; gap: 8px; }
+  .bouton { padding: 13px; border: 1px solid var(--or); font-family: var(--f-titre); font-size: 12px; letter-spacing: .2em; }
+  .bouton--plein { background: var(--or); color: var(--encre); }
+
+  /* Commandes */
+  .commandes { display: flex; align-items: center; gap: 18px; font-family: var(--f-titre); font-size: 12px; letter-spacing: .2em; color: rgba(251, 248, 242, .75); }
+  .commandes button { width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(226, 191, 116, .5); color: var(--or-clair); font-size: 18px; }
+  .commandes button:disabled { opacity: .3; cursor: default; }
+
+  .da { background: var(--ivoire); color: var(--encre); padding: clamp(56px, 8vw, 100px) clamp(16px, 4vw, 56px); }
+  .da h3 { font-family: var(--f-titre); font-weight: 500; font-size: clamp(26px, 3.4vw, 42px); margin: 10px 0 26px; }
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .pastille { border: 1px solid #e8e1d4; background: #fff; }
+  .pastille div { height: 76px; }
+  .pastille p { padding: 10px 12px; font-size: 13px; }
+  .pastille b { display: block; }
+  .bloc { margin-top: 12px; padding: 24px; background: #fff; border: 1px solid #e8e1d4; max-width: 1000px; font-size: 17px; }
+  .bloc p + p { margin-top: 10px; }
+  .pied { padding: 26px clamp(16px, 4vw, 56px) 70px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; background: var(--ivoire); color: var(--gris); }
+  .badge { position: fixed; left: 12px; bottom: 12px; z-index: 70; padding: 8px 14px; border-radius: 999px; font-size: 11px; font-family: system-ui; background: #000; color: var(--or-clair); }
+  .badge a { color: #fff; text-decoration: underline; margin-left: 6px; }
+
+  /* Mobile : une page a la fois, qu'on tourne d'un glissement */
+  @media (max-width: 820px) {
+    .livre { --page-l: min(calc(100vw - 32px), calc((100svh - 170px) * .7)); width: var(--page-l); }
+    .livre.ferme, .livre.fin { translate: 0 0; }
+    .feuille { left: 0; width: 100%; }
+    .signets { right: 4%; }
+    .badge { bottom: auto; top: 54px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<main class="scene">
+  <div class="entete"><span>Les Résidences Merryke</span><a href="tel:+2250716191824">07 16 19 18 24</a></div>
+  <div class="livre ferme" aria-roledescription="livret" aria-label="Livret d'accueil des Résidences Merryke 3, Angré">
+    <div class="ombre" aria-hidden="true"></div>
+    <nav class="signets" aria-label="Signets"></nav>
+  </div>
+  <div class="commandes">
+    <button type="button" class="prec" aria-label="Page précédente">←</button>
+    <span class="compteur" aria-live="polite">Couverture</span>
+    <button type="button" class="suiv" aria-label="Page suivante">→</button>
+  </div>
+</main>
+
+<section class="da">
+  <p class="surtitre">Planche de direction artistique · Piste A</p>
+  <h3>Livret d'accueil : le site se feuillette</h3>
+  <div class="nuancier">
+    <div class="pastille"><div style="background:#16130f"></div><p><b>Table</b>#16130F · fond</p></div>
+    <div class="pastille"><div style="background:#fbf8f2"></div><p><b>Ivoire</b>#FBF8F2 · pages</p></div>
+    <div class="pastille"><div style="background:#c79335"></div><p><b>Or</b>#C79335 · le logo</p></div>
+    <div class="pastille"><div style="background:#e2bf74"></div><p><b>Or clair</b>#E2BF74</p></div>
+    <div class="pastille"><div style="background:#1a1714"></div><p><b>Encre</b>#1A1714 · textes</p></div>
+  </div>
+  <div class="bloc">
+    <p class="surtitre">Expérience</p>
+    <p>Les bonnes résidences remettent un livret d'accueil : le site en est un. Posé sur une table sombre, le livret s'ouvre et ses pages tournent en 3D (clic sur la page, flèches du clavier, ou glissement du doigt sur mobile, où l'on feuillette page par page). Des signets dorés mènent aux chapitres : bienvenue, l'appartement, équipements, quartier, réservation. Couverture blanche avec le logo, filets dorés, pleines pages photo : les photos verticales de Merryke 3 sont faites pour ce format.</p>
+    <p>Typographies : Cinzel (capitales gravées, comme le logo) et EB Garamond. Contenus tirés de la publication de Merryke 3 ; le schéma du quartier n'est pas à l'échelle.</p>
+  </div>
+</section>
+<footer class="pied"><span>Les Résidences Merryke 3 · Angré, Nouveau CHU · 07 16 19 18 24</span><span>Proposition de site réalisée par Digifaz</span></footer>
+<p class="badge">Maquette · Piste A · Livret<a href="index.html">Toutes les pistes</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script>
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const WA = "https://wa.me/2250716191824?text=" + encodeURIComponent("Bonjour, je souhaite réserver aux Résidences Merryke 3 (Angré).");
+  const photo = (src, alt, titre, sous) => `<div class="page page--photo"><img src="assets/${src}" alt="${alt}"><div class="legende"><b>${titre}</b>${sous ? `<span>${sous}</span>` : ""}</div></div>`;
+
+  // Les pages du livret, dans l'ordre de lecture
+  const PAGES = [
+    { nom: "Couverture", html: `<div class="page couverture"><div class="cadre"></div><img src="assets/logo-lm.jpg" alt="Logo des Résidences Merryke"><p class="devise">Sécurité · Confort · Tranquillité</p><p class="sous">Merryke 3 · Angré<br>Livret d'accueil</p></div>` },
+    { nom: "Bienvenue", signet: "Accueil", html: `<div class="page"><p class="surtitre">Bienvenue</p><h2 class="titre">Aux Résidences Merryke</h2><div class="filet"></div><p>Un appartement moderne, propre et entièrement équipé, à Angré, près du Nouveau CHU. Pour un court séjour comme pour un long.</p><p><i>Sécurité, confort, tranquillité</i> : c'est notre promesse.</p><ul class="sommaire"></ul></div>` },
+    { nom: "Le séjour", html: photo("salon-tv.jpg", "Salon avec canapé gris, coussins orange, télévision et plantes", "Le séjour", "Canapé, télévision, Canal+") },
+    { nom: "L'appartement", signet: "Appart.", html: `<div class="page"><p class="surtitre">L'appartement</p><h2 class="titre">Ouvert, lumineux, prêt à vivre</h2><p>Un séjour ouvert sur une cuisine avec comptoir bar, une chambre avec baie vitrée et un balcon.</p><div class="duo"><img src="assets/salon-ouvert-cuisine.jpg" alt="Salon ouvert sur la cuisine par un comptoir bar"><img src="assets/cuisine-bar.jpg" alt="Comptoir bar en bois avec tabourets et suspensions"></div></div>` },
+    { nom: "La chambre", html: photo("chambre-baie-vitree.jpg", "Chambre avec grand lit, plaid orange, tableau et baie vitrée", "La chambre", "Climatisation, grand lit, baie vitrée") },
+    { nom: "Équipements", signet: "Équip.", html: `<div class="page"><p class="surtitre">Tout est là</p><h2 class="titre">Équipements</h2><ul class="equipements">${["Balcon avec vue", "Climatisation", "Wi-Fi haut débit", "Canal+ inclus", "Télévision", "Gazinière", "Réfrigérateur", "Micro-ondes", "Mixeur", "Chauffe-eau", "Parking interne", "Sécurité 24h/24"].map((e) => `<li>${e}</li>`).join("")}</ul></div>` },
+    { nom: "Le balcon", html: photo("balcon-vue.jpg", "Balcon avec deux chaises et vue dégagée sur le quartier", "Le balcon", "Une belle vue sur Angré") },
+    { nom: "Le quartier", signet: "Quartier", html: `<div class="page"><p class="surtitre">Le quartier</p><h2 class="titre">Angré, Nouveau CHU</h2><p>Non loin de l'école internationale Les Graines du Savoir. Un quartier calme et accessible.</p><div class="schema" role="img" aria-label="Schéma : la résidence près du Nouveau CHU d'Angré et de l'école Les Graines du Savoir"><span class="moi" style="left:42%;top:44%"><i></i><b>Merryke 3</b></span><span style="left:14%;top:18%"><i></i>Nouveau CHU</span><span style="left:58%;top:74%"><i></i>Les Graines du Savoir</span><small>Schéma, non à l'échelle</small></div></div>` },
+    { nom: "Infos pratiques", html: `<div class="page"><p class="surtitre">Infos pratiques</p><h2 class="titre">Votre séjour</h2><p class="tarif">35 000 F<small> / NUIT</small></p><ul class="liste"><li>Courts et longs séjours</li><li>Parking interne</li><li>Sécurité 24h/24</li><li>Appartement entièrement équipé</li></ul></div>` },
+    { nom: "Réservation", signet: "Réserver", html: `<div class="page dos"><div class="cadre"></div><p class="surtitre" style="color:#e2bf74">Réservation</p><h2 class="titre">À très bientôt</h2><p class="tel">07 16 19 18 24</p><div class="boutons"><a class="bouton bouton--plein" href="tel:+2250716191824">Appeler</a><a class="bouton" href="${WA}">WhatsApp</a></div></div>` },
+  ];
+
+  const livre = document.querySelector(".livre");
+  const compteur = document.querySelector(".compteur");
+  let feuilles = [], courant = 0, mobile = null, occupe = false;
+
+  // Construit le livre : deux pages par feuille sur ordinateur, une seule sur mobile
+  function construire() {
+    const estMobile = matchMedia("(max-width: 820px)").matches;
+    if (estMobile === mobile) return;
+    mobile = estMobile;
+    feuilles.forEach((f) => f.remove());
+    const groupes = mobile ? PAGES.map((p) => [p]) : PAGES.reduce((acc, p, i) => (i % 2 ? acc[acc.length - 1].push(p) : acc.push([p]), acc), []);
+    feuilles = groupes.map(([recto, verso], i) => {
+      const f = document.createElement("div");
+      f.className = "feuille";
+      f.innerHTML = `<div class="face recto">${recto.html}<span class="num">${PAGES.indexOf(recto) || ""}</span><span class="reflet"></span></div>${verso ? `<div class="face verso">${verso.html}<span class="num">${PAGES.indexOf(verso)}</span><span class="reflet"></span></div>` : ""}`;
+      livre.appendChild(f);
+      return f;
+    });
+    // Sommaire de la page de bienvenue
+    document.querySelectorAll(".sommaire").forEach((s) => (s.innerHTML = PAGES.map((p, i) => (p.signet ? `<li><button type="button" data-page="${i}"><span>${p.nom}</span><span></span><span>${i}</span></button></li>` : "")).join("")));
+    courant = Math.min(courant, feuilles.length);
+    poser();
+  }
+
+  // Place chaque feuille (tournee ou non) et son ordre d'empilement
+  function poser() {
+    feuilles.forEach((f, i) => {
+      gsap.set(f, { rotationY: i < courant ? -180 : 0, zIndex: i < courant ? i : feuilles.length - i });
+    });
+    maj();
+  }
+
+  function pageVisible() { return mobile ? courant : courant * 2; }
+  function maj() {
+    livre.classList.toggle("ferme", courant === 0 && !mobile);
+    livre.classList.toggle("fin", courant === feuilles.length && !mobile);
+    const p = pageVisible();
+    compteur.textContent = p === 0 ? "Couverture" : mobile ? `Page ${p} / ${PAGES.length - 1}` : courant === feuilles.length ? "Fin" : `Pages ${p - 1}–${p}`;
+    document.querySelector(".prec").disabled = courant === 0;
+    document.querySelector(".suiv").disabled = courant === feuilles.length - (mobile ? 1 : 0);
+    document.querySelectorAll(".signet").forEach((s) => {
+      const cible = feuilleDe(+s.dataset.page);
+      s.setAttribute("aria-current", cible === courant);
+    });
+  }
+
+  // Tourne une feuille vers l'avant (1) ou l'arriere (-1)
+  function tourner(sens) {
+    if (occupe) return;
+    const max = feuilles.length - (mobile ? 1 : 0);
+    if ((sens > 0 && courant >= max) || (sens < 0 && courant <= 0)) return;
+    const f = sens > 0 ? feuilles[courant] : feuilles[courant - 1];
+    courant += sens;
+    occupe = true;
+    const n = feuilles.length;
+    const i = feuilles.indexOf(f);
+    const reflets = f.querySelectorAll(".reflet");
+    gsap.timeline({ onComplete: () => { occupe = false; } })
+      .set(f, { zIndex: n + 1 })
+      .to(f, { rotationY: sens > 0 ? -180 : 0, duration: reduit ? 0 : 0.9, ease: "power2.inOut" }, 0)
+      .to(reflets, { opacity: 1, duration: reduit ? 0 : 0.45, yoyo: true, repeat: 1, ease: "sine.inOut" }, 0)
+      .set(f, { zIndex: sens > 0 ? i : n - i });
+    maj();
+  }
+
+  // Va directement a une page (signets, sommaire) en tournant les feuilles une a une
+  const feuilleDe = (page) => (mobile ? page : Math.ceil(page / 2));
+  async function aller(page) {
+    const cible = Math.min(feuilleDe(page), feuilles.length - (mobile ? 1 : 0));
+    while (courant !== cible) {
+      tourner(cible > courant ? 1 : -1);
+      await new Promise((r) => setTimeout(r, reduit ? 0 : 230));
+      occupe = false;
+    }
+  }
+
+  // Signets
+  const signets = document.querySelector(".signets");
+  PAGES.forEach((p, i) => { if (p.signet) signets.insertAdjacentHTML("beforeend", `<button type="button" class="signet" data-page="${i}" aria-label="Aller à : ${p.nom}">${p.signet}</button>`); });
+  signets.addEventListener("click", (e) => { const s = e.target.closest(".signet"); if (s) aller(+s.dataset.page); });
+  livre.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-page]");
+    if (b && !b.classList.contains("signet")) return aller(+b.dataset.page);
+    if (e.target.closest("a, button")) return;
+    const f = e.target.closest(".feuille");
+    if (!f) return;
+    tourner(feuilles.indexOf(f) < courant ? -1 : 1);
+  });
+  document.querySelector(".prec").addEventListener("click", () => tourner(-1));
+  document.querySelector(".suiv").addEventListener("click", () => tourner(1));
+  addEventListener("keydown", (e) => { if (e.key === "ArrowRight") tourner(1); if (e.key === "ArrowLeft") tourner(-1); });
+
+  // Glissement du doigt sur mobile
+  let depart = null;
+  livre.addEventListener("pointerdown", (e) => (depart = { x: e.clientX, y: e.clientY }));
+  livre.addEventListener("pointerup", (e) => {
+    if (!depart) return;
+    const dx = e.clientX - depart.x, dy = e.clientY - depart.y;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) tourner(dx < 0 ? 1 : -1);
+    depart = null;
+  });
+
+  construire();
+  addEventListener("resize", construire);
+  // Entree : le livret glisse sur la table
+  if (!reduit) gsap.from(".livre", { y: 60, rotationX: 18, opacity: 0, duration: 1.2, ease: "expo.out", transformPerspective: 1600 });
+</script>
+</body>
+</html>

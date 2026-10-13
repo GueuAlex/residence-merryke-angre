@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Merryke · Piste C · Visite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Public+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  /* Tokens du theme - piste C */
+  :root {
+    --greige: #ece8e2;
+    --craie: #f7f5f1;
+    --charbon: #22201d;
+    --gris: #6e6860;
+    --bois: #b98a55;
+    --or: #c79335;
+    --f-titre: "Libre Caslon Display", Georgia, serif;
+    --f-texte: "Public Sans", system-ui, sans-serif;
+    --gouttiere: clamp(16px, 4vw, 56px);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html.lenis, html.lenis body { height: auto; }
+  body { background: var(--greige); color: var(--charbon); font-family: var(--f-texte); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--bois); outline-offset: 3px; }
+  .surtitre { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #8a6416; }
+
+  .barre { position: fixed; inset: 0 0 auto; z-index: 40; display: flex; justify-content: space-between; align-items: center; padding: 14px var(--gouttiere); mix-blend-mode: normal; }
+  .marque { font-family: var(--f-titre); font-size: 22px; letter-spacing: .04em; }
+  .marque small { display: block; font-family: var(--f-texte); font-size: 10px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gris); }
+  .barre a.tel { padding: 10px 16px; border-radius: 999px; background: var(--charbon); color: var(--craie); font-size: 14px; font-weight: 700; white-space: nowrap; }
+
+  /* Ouverture */
+  .ouverture { min-height: 100svh; display: grid; place-items: center; text-align: center; padding: 90px var(--gouttiere) 40px; }
+  .ouverture h1 { font-family: var(--f-titre); font-weight: 400; font-size: clamp(52px, 9vw, 150px); line-height: .9; letter-spacing: -.01em; }
+  .ouverture h1 em { color: var(--bois); }
+  .ouverture p { max-width: 520px; margin: 22px auto 0; color: var(--gris); font-size: 18px; }
+  .porte { width: min(240px, 50vw); aspect-ratio: 9 / 14; margin: 30px auto 0; border-radius: 120px 120px 6px 6px; overflow: hidden; box-shadow: 0 30px 60px rgba(34, 32, 29, .2); }
+  .porte img { width: 100%; height: 100%; object-fit: cover; }
+  .indice { margin-top: 18px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); }
+
+  /* La visite */
+  .visite { position: relative; height: 100svh; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(20px, 4vw, 64px); padding: 70px var(--gouttiere) 24px; overflow: hidden; }
+  .parcours { list-style: none; justify-self: end; position: relative; padding-left: 26px; }
+  .parcours::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 2px; background: rgba(34, 32, 29, .15); }
+  .parcours__barre { position: absolute; left: 6px; top: 8px; width: 2px; height: calc(100% - 16px); background: var(--bois); transform-origin: top; transform: scaleY(0); }
+  .parcours li { position: relative; padding: 9px 0; font-size: 15px; color: var(--gris); transition: color .4s; }
+  .parcours li::before { content: ""; position: absolute; left: -25px; top: 50%; width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: var(--greige); border: 2px solid rgba(34, 32, 29, .25); transition: background .4s, border-color .4s; }
+  .parcours li.actif { color: var(--charbon); font-weight: 700; }
+  .parcours li.actif::before, .parcours li.passe::before { background: var(--bois); border-color: var(--bois); }
+  .cadre { position: relative; height: min(84svh, 860px); aspect-ratio: 9 / 16; border-radius: 30px; overflow: hidden; background: var(--charbon); box-shadow: 0 40px 80px rgba(34, 32, 29, .25); }
+  .cadre img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; will-change: transform, clip-path; }
+  .textes { position: relative; height: 60%; align-self: center; }
+  .texte { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; }
+  .texte:first-child { opacity: 1; }
+  .texte .n { font-family: var(--f-titre); font-size: 20px; color: var(--bois); }
+  .texte h2 { font-family: var(--f-titre); font-weight: 400; font-size: clamp(40px, 4.6vw, 76px); line-height: .95; margin: 8px 0 14px; }
+  .texte p { max-width: 340px; color: var(--gris); font-size: 17px; }
+  .texte ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .texte li { padding: 6px 12px; border-radius: 999px; background: var(--craie); font-size: 13px; font-weight: 600; }
+
+  /* Apres la visite */
+  .bilan { padding: clamp(70px, 9vw, 120px) var(--gouttiere); max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(24px, 4vw, 64px); }
+  .bilan h2 { font-family: var(--f-titre); font-weight: 400; font-size: clamp(38px, 5vw, 80px); line-height: .95; margin: 10px 0 20px; }
+  .equip { columns: 2; column-gap: 24px; list-style: none; }
+  .equip li { padding: 9px 0; border-bottom: 1px solid rgba(34, 32, 29, .12); break-inside: avoid; }
+  .carte-resa { align-self: start; position: sticky; top: 90px; padding: 30px; border-radius: 26px; background: var(--charbon); color: var(--craie); }
+  .carte-resa .prix { font-family: var(--f-titre); font-size: clamp(48px, 5vw, 72px); line-height: 1; margin: 8px 0; }
+  .carte-resa .prix small { font-family: var(--f-texte); font-size: 15px; color: rgba(247, 245, 241, .7); }
+  .carte-resa p { color: rgba(247, 245, 241, .75); }
+  .carte-resa a { display: block; text-align: center; margin-top: 12px; padding: 15px; border-radius: 14px; font-weight: 700; }
+  .carte-resa a.plein { background: var(--bois); color: var(--charbon); }
+  .carte-resa a.trait { border: 1px solid rgba(247, 245, 241, .3); }
+  .quartier { margin-top: 28px; padding-top: 22px; border-top: 1px solid rgba(34, 32, 29, .15); }
+  .quartier b { font-family: var(--f-titre); font-weight: 400; font-size: 28px; display: block; margin-bottom: 6px; }
+
+  .da { background: var(--craie); padding: clamp(56px, 8vw, 100px) var(--gouttiere); }
+  .da h3 { font-family: var(--f-titre); font-weight: 400; font-size: clamp(30px, 3.8vw, 48px); margin: 10px 0 26px; }
+  .nuancier { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .pastille { border-radius: 14px; overflow: hidden; border: 1px solid #e3ded6; background: #fff; }
+  .pastille div { height: 76px; }
+  .pastille p { padding: 10px 12px; font-size: 12px; }
+  .pastille b { display: block; }
+  .bloc { margin-top: 12px; padding: 24px; border-radius: 16px; background: #fff; max-width: 1000px; }
+  .bloc p + p { margin-top: 10px; }
+  .pied { padding: 26px var(--gouttiere) 70px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 14px; color: var(--gris); background: var(--craie); }
+  .badge { position: fixed; left: 12px; bottom: 12px; z-index: 70; padding: 8px 14px; border-radius: 999px; font-size: 11px; background: var(--charbon); color: #e2bf74; }
+  .badge a { color: #fff; text-decoration: underline; margin-left: 6px; }
+
+  /* Mobile : la photo occupe l'ecran, le texte se pose dessus */
+  @media (max-width: 900px) {
+    .visite { grid-template-columns: 1fr; padding: 0; }
+    .cadre { height: 100svh; width: 100%; aspect-ratio: auto; border-radius: 0; grid-area: 1 / 1; }
+    .textes { grid-area: 1 / 1; align-self: end; height: 40svh; margin: 0 16px 24px; z-index: 2; color: #fff; }
+    .texte { justify-content: flex-end; }
+    .texte p { color: rgba(255, 255, 255, .85); }
+    .texte li { background: rgba(255, 255, 255, .18); color: #fff; }
+    .cadre::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, rgba(0, 0, 0, .75)); z-index: 5; }
+    .parcours { grid-area: 1 / 1; align-self: start; justify-self: start; z-index: 3; margin: 76px 0 0 16px; display: flex; gap: 6px; padding: 0; }
+    .parcours::before, .parcours__barre { display: none; }
+    .parcours li { width: 22px; height: 4px; padding: 0; border-radius: 2px; background: rgba(255, 255, 255, .35); font-size: 0; }
+    .parcours li::before { display: none; }
+    .parcours li.actif, .parcours li.passe { background: #fff; }
+    .barre { color: #fff; background: rgba(34, 32, 29, .55); backdrop-filter: blur(10px); }
+    .barre .marque small { color: rgba(255, 255, 255, .7); }
+    .bilan { grid-template-columns: 1fr; }
+    .equip { columns: 1; }
+    .badge { bottom: auto; top: 64px; left: auto; right: 8px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="barre">
+  <a class="marque" href="#">Merryke<small>Les Résidences · Angré</small></a>
+  <a class="tel" href="tel:+2250716191824">Réserver</a>
+</header>
+
+<section class="ouverture">
+  <div>
+    <p class="surtitre">Les Résidences Merryke 3 · Angré, Nouveau CHU</p>
+    <h1>Entrez,<br><em>c'est ouvert.</em></h1>
+    <p>Visitez l'appartement pièce par pièce avant d'y poser vos valises : le séjour, la cuisine, la chambre et le balcon.</p>
+    <div class="porte"><img src="assets/salon-tv.jpg" alt="Salon avec canapé gris et coussins orange"></div>
+    <p class="indice">Faites défiler pour entrer ↓</p>
+  </div>
+</section>
+
+<section class="visite" aria-label="Visite de l'appartement">
+  <ol class="parcours" aria-label="Pièces visitées"><span class="parcours__barre" aria-hidden="true"></span></ol>
+  <div class="cadre"></div>
+  <div class="textes"></div>
+</section>
+
+<section class="bilan" aria-labelledby="titre-bilan">
+  <div>
+    <p class="surtitre">Fin de la visite</p>
+    <h2 id="titre-bilan">Tout est prêt pour vous.</h2>
+    <ul class="equip">
+      <li>Balcon avec belle vue</li><li>Climatisation</li><li>Wi-Fi haut débit</li><li>Canal+ inclus</li><li>Télévision</li><li>Gazinière</li><li>Réfrigérateur</li><li>Micro-ondes</li><li>Mixeur</li><li>Chauffe-eau</li><li>Parking interne</li><li>Sécurité 24h/24</li>
+    </ul>
+    <div class="quartier"><b>Angré, Nouveau CHU</b><p style="color:var(--gris)">Non loin de l'école internationale Les Graines du Savoir. Un quartier calme et accessible.</p></div>
+  </div>
+  <aside class="carte-resa">
+    <p class="surtitre" style="color:#e2bf74">Réservation</p>
+    <p class="prix">35 000 F <small>/ nuit</small></p>
+    <p>Courts et longs séjours. Sécurité, confort, tranquillité.</p>
+    <a class="plein" href="tel:+2250716191824">Appeler · 07 16 19 18 24</a>
+    <a class="trait" href="https://wa.me/2250716191824?text=Bonjour%2C%20je%20souhaite%20r%C3%A9server%20aux%20R%C3%A9sidences%20Merryke%203%20(Angr%C3%A9).">WhatsApp</a>
+  </aside>
+</section>
+
+<section class="da">
+  <p class="surtitre">Planche de direction artistique · Piste C</p>
+  <h3>Visite : on entre dans l'appartement</h3>
+  <div class="nuancier">
+    <div class="pastille"><div style="background:#ece8e2"></div><p><b>Greige</b>#ECE8E2 · fond</p></div>
+    <div class="pastille"><div style="background:#f7f5f1"></div><p><b>Craie</b>#F7F5F1</p></div>
+    <div class="pastille"><div style="background:#22201d"></div><p><b>Charbon</b>#22201D</p></div>
+    <div class="pastille"><div style="background:#b98a55"></div><p><b>Bois</b>#B98A55 · le comptoir</p></div>
+  </div>
+  <div class="bloc">
+    <p class="surtitre">Expérience</p>
+    <p>Les photos de Merryke 3 sont verticales et soignées : le site les met en scène comme une visite. Au défilement, chaque pièce s'ouvre comme une porte dans la précédente (masque arrondi qui s'élargit, zoom avant), pendant qu'un plan d'itinéraire avance : séjour, comptoir bar, cuisine, chambre, chambre le soir, balcon. Sur mobile, la visite est plein écran, comme une vidéo, avec des barres de progression en haut.</p>
+    <p>On finit sur la liste des équipements et une carte de réservation qui reste visible. Typographies : Libre Caslon Display (titres) et Public Sans (textes).</p>
+  </div>
+</section>
+<footer class="pied"><span>Les Résidences Merryke 3 · Angré, Nouveau CHU · 07 16 19 18 24</span><span>Proposition de site réalisée par Digifaz</span></footer>
+<p class="badge">Maquette · Piste C · Visite<a href="index.html">Toutes les pistes</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduit) {
+    const lenis = new Lenis({ autoRaf: false, lerp: 0.1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  const PIECES = [
+    { nom: "Le séjour", photo: "salon-ouvert-cuisine.jpg", alt: "Salon avec canapé gris, ouvert sur la cuisine par un comptoir", texte: "On entre dans un séjour lumineux, ouvert sur la cuisine.", tags: ["Canapé", "TV", "Canal+"] },
+    { nom: "Le comptoir", photo: "cuisine-bar.jpg", alt: "Comptoir bar en bois avec tabourets et suspensions", texte: "Un comptoir bar en bois pour les repas et les cafés du matin.", tags: ["Tabourets", "Suspensions"] },
+    { nom: "La cuisine", photo: "cuisine-equipee.jpg", alt: "Cuisine équipée avec gazinière, micro-ondes et réfrigérateur", texte: "Tout pour cuisiner, comme à la maison.", tags: ["Gazinière", "Réfrigérateur", "Micro-ondes", "Mixeur"] },
+    { nom: "La chambre", photo: "chambre-baie-vitree.jpg", alt: "Chambre avec grand lit, plaid orange et baie vitrée", texte: "Un grand lit, une baie vitrée et la climatisation.", tags: ["Climatisation", "Grand lit"] },
+    { nom: "Le soir", photo: "chambre-led-soir.jpg", alt: "Chambre le soir avec tête de lit éclairée", texte: "Le soir, la tête de lit s'éclaire : place au calme.", tags: ["Tranquillité"] },
+    { nom: "Le balcon", photo: "balcon-vue.jpg", alt: "Balcon avec deux chaises et vue dégagée sur Angré", texte: "Et pour finir, le balcon, avec une belle vue sur Angré.", tags: ["Balcon", "Vue"] },
+  ];
+
+  const cadre = document.querySelector(".cadre"), textes = document.querySelector(".textes"), parcours = document.querySelector(".parcours");
+  PIECES.forEach((p, i) => {
+    cadre.insertAdjacentHTML("beforeend", `<img src="assets/${p.photo}" alt="${p.alt}" style="z-index:${i}">`);
+    textes.insertAdjacentHTML("beforeend", `<div class="texte" aria-hidden="${i > 0}"><span class="n">0${i + 1}</span><h2>${p.nom}</h2><p>${p.texte}</p><ul>${p.tags.map((t) => `<li>${t}</li>`).join("")}</ul></div>`);
+    parcours.insertAdjacentHTML("beforeend", `<li class="${i === 0 ? "actif" : ""}">${p.nom}</li>`);
+  });
+  const imgs = [...cadre.querySelectorAll("img")], blocs = [...textes.querySelectorAll(".texte")], etapes = [...parcours.querySelectorAll("li")];
+
+  function marquer(i) {
+    etapes.forEach((e, k) => { e.classList.toggle("actif", k === i); e.classList.toggle("passe", k < i); });
+    blocs.forEach((b, k) => b.setAttribute("aria-hidden", k !== i));
+  }
+
+  if (reduit) {
+    // Sans animation : une pile verticale simple
+    cadre.style.height = "auto";
+  } else {
+    gsap.set(imgs.slice(1), { clipPath: "inset(40% 34% 40% 34% round 200px)", scale: 1.3 });
+    const tl = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: ".visite", start: "top top", end: () => "+=" + innerHeight * (PIECES.length - 1) * 1.1, pin: true, scrub: 1,
+        onUpdate: (self) => marquer(Math.min(PIECES.length - 1, Math.round(self.progress * (PIECES.length - 1)))),
+      },
+    });
+    for (let i = 1; i < PIECES.length; i++) {
+      const t = i - 1;
+      // La piece suivante s'ouvre comme une porte, on avance dans la precedente
+      tl.to(imgs[i - 1], { scale: 1.45, duration: 1 }, t)
+        .to(imgs[i], { clipPath: "inset(0% 0% 0% 0% round 0px)", scale: 1, duration: 1, ease: "power2.inOut" }, t)
+        .to(blocs[i - 1], { opacity: 0, y: -30, duration: 0.35 }, t + 0.2)
+        .fromTo(blocs[i], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35 }, t + 0.6);
+    }
+    tl.to(".parcours__barre", { scaleY: 1, duration: PIECES.length - 1 }, 0);
+    gsap.from(".porte", { scale: 0.85, opacity: 0, duration: 1.2, ease: "expo.out", delay: 0.2 });
+  }
+</script>
+</body>
+</html>
