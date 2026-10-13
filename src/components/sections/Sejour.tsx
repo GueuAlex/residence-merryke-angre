@@ -37,7 +37,7 @@ export function Sejour() {
           <p className="text-lin/70">
             pour {nuits} nuit{nuits > 1 ? "s" : ""}
           </p>
-          <a href={contact.whatsapp(sejour.message(nuits))} className="mt-[18px] flex w-full items-center justify-center gap-2.5 rounded-2xl bg-orange px-[22px] py-4 font-bold text-white">
+          <a href={contact.whatsapp(sejour.message(nuits))} className="mt-[18px] flex w-full items-center justify-center gap-2.5 rounded-2xl bg-orange-fonce px-[22px] py-4 font-bold text-white">
             <IconeWhatsapp />
             {sejour.cta}
           </a>

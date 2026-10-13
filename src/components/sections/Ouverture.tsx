@@ -19,7 +19,7 @@ export function Ouverture() {
           {ouverture.texte}
         </p>
         <div style={delai(3)} className="entree mt-[26px] flex flex-wrap gap-2.5">
-          <a href={contact.whatsapp("Bonjour, je souhaite réserver aux Résidences Merryke 3 (Angré).")} className="inline-flex items-center gap-2.5 rounded-2xl bg-orange px-[22px] py-4 font-bold text-white transition-transform hover:-translate-y-0.5">
+          <a href={contact.whatsapp("Bonjour, je souhaite réserver aux Résidences Merryke 3 (Angré).")} className="inline-flex items-center gap-2.5 rounded-2xl bg-orange-fonce px-[22px] py-4 font-bold text-white transition-transform hover:-translate-y-0.5">
             <IconeWhatsapp />
             {ouverture.ctaWhatsapp}
           </a>

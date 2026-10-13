@@ -48,7 +48,9 @@ Règle 7 du README : nouvelle approche UI/UX. Trois pistes dans `docs/maquettes/
   - piste B « Valise » validée par l'utilisateur ;
   - site Next.js : barre, ouverture, déballage, pièces, séjour, quartier, pied de page, favicon (valise), image de partage ;
   - vérifié en desktop et en mobile (compteur 13/13, 5 nuits = 175 000 F et message WhatsApp correspondant) ; lint et build OK ;
+  - Lighthouse mobile : performance 90 à 96, bonnes pratiques 100 ; les boutons WhatsApp passent en `orange-fonce` (blanc sur orange vif : 3,37:1, insuffisant) ;
   - repo GitHub créé et démo déployée.
+- Point ouvert : `vercel git connect` attend que l'utilisateur autorise le repo dans l'application GitHub de Vercel ; d'ici là, redéployer avec `vercel --prod --yes` après chaque push.
 - Prochaine étape : l'utilisateur envoie le lien au propriétaire. Ensuite : ses autres résidences (site de marque ?), WhatsApp, capacité, conditions, logo vectoriel, photos de façade et de salle de bain.
 
 ### 2026-10-13 (1)
